@@ -6,7 +6,11 @@
     "build:js": "bun build src/assets/js/main.ts --outdir src/static/js --target browser",
     "build": "bun run build:css && bun run build:js",
     "watch:css": "bunx @tailwindcss/cli -i src/assets/css/*.css -o src/static/css/*.css --watch",
-    "watch:js": "bun build src/assets/js/main.ts --outdir src/static/js --target browser --watch"
+    "watch:js": "bun build src/assets/js/main.ts --outdir src/static/js --target browser --watch",
+    "test": "bun test",
+    "test:run": "bun run test",
+    "test:ui": "bun run test --ui",
+    "test:coverage": "bun run test --coverage"
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.18",
@@ -17,6 +21,8 @@
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "@vitest/coverage-v8": "^4.0.17",
+    "vitest": "^4.0.17"
   }
 }

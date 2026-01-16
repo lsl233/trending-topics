@@ -5,6 +5,7 @@ import type { TrendingHistoryWithTopic } from '@/models/trending-history.model'
 
 export const Home: FC<{ latestBatch: CrawlBatch, histories: TrendingHistoryWithTopic[] }> = ({ latestBatch, histories }) => {
   const htmlContent = marked.parse(latestBatch.aiContent, { async: false }) as string
+  console.log(new Date(latestBatch.createdAt))
   return (
     <>
       <title>{latestBatch.aiTitle.replace('## ', '')}</title>
@@ -77,11 +78,11 @@ export const Home: FC<{ latestBatch: CrawlBatch, histories: TrendingHistoryWithT
 
                 <div className="flex items-center justify-between pb-8 border-b border-slate-100">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center">
+                    {/* <div className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center">
                       <span className="text-lg">🤖</span>
-                    </div>
+                    </div> */}
                     <div>
-                      <div className="text-sm font-bold text-slate-900">AI 智能分析助手</div>
+                      {/* <div className="text-sm font-bold text-slate-900">AI 智能分析助手</div> */}
                       <div className="text-xs text-slate-400">发布于今日 09:41</div>
                     </div>
                   </div>
