@@ -2,6 +2,18 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { trendingHistoryService } from '../../src/services/trending-history.service'
 import type { TrendingHistoryWithTopic } from '../../src/models/trending-history.model'
 
+const { mockTrendingHistoryRepository } = vi.hoisted(() => {
+  return {
+    mockTrendingHistoryRepository: {
+      getHistoriesWithTopicByBatchId: vi.fn(),
+    }
+  }
+})
+
+vi.mock('../../src/models/trending-history.model', () => ({
+  trendingHistoryRepository: mockTrendingHistoryRepository,
+}))
+
 describe('trendingHistoryService', () => {
   const mockHistories: TrendingHistoryWithTopic[] = [
     {
@@ -31,14 +43,6 @@ describe('trendingHistoryService', () => {
       topicUrl: 'https://example.com/2',
     },
   ]
-
-  const mockTrendingHistoryRepository = {
-    getHistoriesWithTopicByBatchId: vi.fn(),
-  }
-
-  vi.mock('../../src/models/trending-history.model', () => ({
-    trendingHistoryRepository: mockTrendingHistoryRepository,
-  }))
 
   beforeEach(() => {
     vi.clearAllMocks()

@@ -2,6 +2,18 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { crawlBatchService } from '../../src/services/crawl-batch.service'
 import type { CrawlBatch } from '../../src/models/crawl-batch.model'
 
+const { mockCrawlBatchRepository } = vi.hoisted(() => {
+  return {
+    mockCrawlBatchRepository: {
+      getLatestBatch: vi.fn(),
+    }
+  }
+})
+
+vi.mock('../../src/models/crawl-batch.model', () => ({
+  crawlBatchRepository: mockCrawlBatchRepository,
+}))
+
 describe('crawlBatchService', () => {
   const mockBatch: CrawlBatch = {
     batchId: 'batch-123',
@@ -9,14 +21,6 @@ describe('crawlBatchService', () => {
     aiContent: 'This is AI generated content',
     createdAt: new Date('2024-01-15T10:00:00Z'),
   }
-
-  const mockCrawlBatchRepository = {
-    getLatestBatch: vi.fn(),
-  }
-
-  vi.mock('../../src/models/crawl-batch.model', () => ({
-    crawlBatchRepository: mockCrawlBatchRepository,
-  }))
 
   beforeEach(() => {
     vi.clearAllMocks()

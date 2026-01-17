@@ -2,28 +2,31 @@ import { describe, it, expect, beforeEach, vi } from 'vitest'
 import { trendingTopicService } from '../../src/services/trending-topic.service'
 import type { TrendingTopic } from '../../src/models/trending-topic.model'
 
+const { mockTrendingTopicRepository } = vi.hoisted(() => {
+  return {
+    mockTrendingTopicRepository: {
+      findAll: vi.fn(),
+      findById: vi.fn(),
+      findByUniqueKey: vi.fn(),
+      findBySource: vi.fn(),
+      create: vi.fn(),
+      update: vi.fn(),
+      delete: vi.fn(),
+      getLatest: vi.fn(),
+      getTopicsByBatch: vi.fn(),
+    }
+  }
+})
+
+vi.mock('../../src/models/trending-topic.model', () => ({
+  trendingTopicRepository: mockTrendingTopicRepository,
+}))
+
 describe('trendingTopicService', () => {
   const mockTopics: TrendingTopic[] = [
     { id: 1, source: 'weibo', uniqueKey: 'key1', title: 'Topic 1', url: 'https://example.com/1', firstSeenAt: new Date() },
     { id: 2, source: 'weibo', uniqueKey: 'key2', title: 'Topic 2', url: 'https://example.com/2', firstSeenAt: new Date() },
   ]
-
-  // Create mock implementation at module level
-  const mockTrendingTopicRepository = {
-    findAll: vi.fn(),
-    findById: vi.fn(),
-    findByUniqueKey: vi.fn(),
-    findBySource: vi.fn(),
-    create: vi.fn(),
-    update: vi.fn(),
-    delete: vi.fn(),
-    getLatest: vi.fn(),
-    getTopicsByBatch: vi.fn(),
-  }
-
-  vi.mock('../../src/models/trending-topic.model', () => ({
-    trendingTopicRepository: mockTrendingTopicRepository,
-  }))
 
   beforeEach(() => {
     vi.clearAllMocks()

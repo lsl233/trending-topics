@@ -7,10 +7,10 @@
     "build": "bun run build:css && bun run build:js",
     "watch:css": "bunx @tailwindcss/cli -i src/assets/css/*.css -o src/static/css/*.css --watch",
     "watch:js": "bun build src/assets/js/main.ts --outdir src/static/js --target browser --watch",
-    "test": "bun test",
-    "test:run": "bun run test",
-    "test:ui": "bun run test --ui",
-    "test:coverage": "bun run test --coverage"
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage"
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.18",
