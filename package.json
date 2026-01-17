@@ -23,6 +23,7 @@
   "devDependencies": {
     "@types/bun": "latest",
     "@vitest/coverage-v8": "^4.0.17",
+    "@vitest/ui": "^4.0.17",
     "vitest": "^4.0.17"
   }
 }
