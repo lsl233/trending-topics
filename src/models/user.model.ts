@@ -1,5 +1,4 @@
 import { getDatabase } from '@/lib/db'
-import { toCamelCase } from '@/utils/case-converter'
 
 interface User {
   id?: number
@@ -11,26 +10,25 @@ interface User {
 export const userRepository = {
   findAll: async (): Promise<User[]> => {
     const db = getDatabase()
-    const users = await db`SELECT * FROM users ORDER BY id DESC`
-    return toCamelCase<User[]>(users)
+    return db`SELECT * FROM users ORDER BY id DESC` as any
   },
 
   findById: async (id: number): Promise<User | undefined> => {
     const db = getDatabase()
     const users = await db`SELECT * FROM users WHERE id = ${id}`
-    return toCamelCase<User[]>(users)[0]
+    return users[0] as any
   },
 
   create: async (user: Omit<User, 'id' | 'createdAt'>): Promise<User> => {
     const db = getDatabase()
     const users = await db`INSERT INTO users ${db(user)} RETURNING *`
-    return toCamelCase<User[]>(users)[0]
+    return users[0] as any
   },
 
   update: async (id: number, user: Partial<Omit<User, 'id' | 'createdAt'>>): Promise<User | undefined> => {
     const db = getDatabase()
     const users = await db`UPDATE users SET ${db(user)} WHERE id = ${id} RETURNING *`
-    return toCamelCase<User[]>(users)[0]
+    return users[0] as any
   },
 
   delete: async (id: number): Promise<boolean> => {

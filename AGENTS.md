@@ -13,7 +13,7 @@ This file provides guidance to AI coding agents working in this repository.
 - `bun run build:js` - Bundle JavaScript with Bun
 
 ### Testing
-- `bun test` - Run all tests
+- `bun run test` - Run all tests
 - `bun run test:run` - Alias for `bun test`
 - `bun run test:ui` - Run tests with Vitest UI
 - `bun run test:coverage` - Run tests with coverage report

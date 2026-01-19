@@ -1,5 +1,4 @@
 import { getDatabase } from '@/lib/db'
-import { toCamelCase } from '@/utils/case-converter'
 
 export interface TrendingHistory {
   id: number
@@ -21,8 +20,8 @@ export interface TrendingHistoryWithTopic extends TrendingHistory {
 export const trendingHistoryRepository = {
   getHistoriesWithTopicByBatchId: async (batchId: string): Promise<TrendingHistoryWithTopic[]> => {
     const db = getDatabase()
-    const histories = await db`
-      SELECT 
+    return db`
+      SELECT
         h.id,
         h.topic_id,
         h.hot_score,
@@ -38,7 +37,6 @@ export const trendingHistoryRepository = {
       JOIN trending_topics t ON h.topic_id = t.id
       WHERE h.batch_id = ${batchId}
       ORDER BY h.rank ASC
-    `
-    return toCamelCase<TrendingHistoryWithTopic[]>(histories)
+    ` as any
   }
 }

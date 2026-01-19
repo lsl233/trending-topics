@@ -8,7 +8,8 @@ export const getDatabase = (): postgres.Sql<Record<string, never>> => {
     sql = postgres(databaseConfig.url, {
       max: 10,
       idle_timeout: 20,
-      connect_timeout: 10
+      connect_timeout: 10,
+      transform: postgres.toCamel
     })
   }
   return sql

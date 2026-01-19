@@ -1,6 +1,5 @@
 import { Hono } from 'hono'
 import { getDatabase, testConnection } from '@/lib/db'
-import { toCamelCase } from '@/utils/case-converter'
 
 const dbTest = new Hono()
 
@@ -13,7 +12,7 @@ dbTest.get('/version', async (c) => {
   try {
     const db = getDatabase()
     const result = await db`SELECT version()`
-    return c.json({ success: true, data: toCamelCase(result)[0] })
+    return c.json({ success: true, data: result[0] })
   } catch (error) {
     return c.json({ success: false, error: 'Failed to get database version' }, 500)
   }
