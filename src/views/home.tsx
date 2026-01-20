@@ -2,6 +2,7 @@ import { marked } from 'marked'
 import { CrawlBatch } from '@/models/crawl-batch.model'
 import type { FC } from 'hono/jsx'
 import type { TrendingHistoryWithTopic } from '@/models/trending-history.model'
+import { formatTime } from '@/utils/time'
 
 export const Home: FC<{ latestBatch: CrawlBatch, histories: TrendingHistoryWithTopic[] }> = ({ latestBatch, histories }) => {
   const htmlContent = marked.parse(latestBatch.aiContent, { async: false }) as string
@@ -19,16 +20,15 @@ export const Home: FC<{ latestBatch: CrawlBatch, histories: TrendingHistoryWithT
         <div className="max-w-[1200px] mx-auto px-6 py-12 lg:grid lg:grid-cols-[340px_1fr] lg:gap-16">
 
           {/* 左侧：独立榜单模块 */}
-          <aside className="mb-12 lg:mb-0">
-            <div className="lg:sticky lg:top-12">
-              <div className="flex items-center gap-2 mb-6">
-                <span className="w-2 h-6 bg-orange-500 rounded-full"></span>
-                <h2 className="text-sm font-bold tracking-widest text-slate-900 uppercase">
-                  榜单
-                </h2>
-              </div>
+          <aside className="mb-12 lg:mb-0 lg:sticky lg:top-12 lg:h-[calc(100vh-6rem)] lg:flex lg:flex-col">
+            <div className="flex items-center gap-2 mb-6">
+              <span className="w-2 h-6 bg-orange-500 rounded-full"></span>
+              <h2 className="text-sm font-bold tracking-widest text-slate-900 uppercase">
+                榜单
+              </h2>
+            </div>
 
-              <ul className="space-y-4">
+            <ul className="space-y-4 lg:flex-1 lg:overflow-y-auto">
                 {histories.map((history, index) => (
                   <li key={history.topicId} className="group flex gap-4 items-center">
                     {/* 数字索引：保持极简感 */}
@@ -51,15 +51,13 @@ export const Home: FC<{ latestBatch: CrawlBatch, histories: TrendingHistoryWithT
                 ))}
               </ul>
 
-              {/* 移动端提示：如果列表很长，可以在此加一个展开更多，或者直接让它自然堆叠 */}
               <div className="mt-8 pt-6 border-t border-slate-100 hidden lg:block">
                 <p className="text-[12px] text-slate-400 leading-relaxed">
                   {/* 数据每 15 分钟更新一次<br /> */}
                   数据源自微博
                 </p>
               </div>
-            </div>
-          </aside>
+            </aside>
 
           {/* 右侧：文章详情模块 */}
           <main className="min-w-0"> {/* min-w-0 防止 grid 内容溢出 */}
@@ -83,7 +81,7 @@ export const Home: FC<{ latestBatch: CrawlBatch, histories: TrendingHistoryWithT
                     </div> */}
                     <div>
                       {/* <div className="text-sm font-bold text-slate-900">AI 智能分析助手</div> */}
-                      <div className="text-xs text-slate-400">发布于 {latestBatch.createdAt.toLocaleString()}</div>
+                      <div className="text-xs text-slate-400">发布于 {formatTime(latestBatch.createdAt, 'relative')}</div>
                     </div>
                   </div>
                 </div>
