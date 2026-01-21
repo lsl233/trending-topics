@@ -1,8 +1,10 @@
 import { Hono } from 'hono'
 import { about } from './about.route'
 import { Home } from '@/views/home'
+import { Ranking } from '@/views/ranking'
 import { crawlBatchService } from '@/services/crawl-batch.service'
 import { trendingHistoryService } from '@/services/trending-history.service'
+import { rankingService } from '@/services/ranking.service'
 import { BaseLayout } from '@/views/layout/BaseLayout'
 
 const pages = new Hono()
@@ -16,6 +18,11 @@ pages.get('/', async (c) => {
   const latestBatch = await crawlBatchService.getLatestBatch()
   const histories = await trendingHistoryService.getHistoriesWithTopicByBatchId(latestBatch.batchId)
   return c.html(<Home latestBatch={latestBatch} histories={histories} />)
+})
+
+pages.get('/ranking', async (c) => {
+  const data = await rankingService.getAllPlatformTrending()
+  return c.html(<Ranking data={data} timestamp={new Date()} />)
 })
 
 pages.route('/about', about)

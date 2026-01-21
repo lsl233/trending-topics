@@ -20,13 +20,13 @@ export const formatTime = (
     return d.toLocaleDateString('zh-CN')
   }
 
+  if (type === 'date') {
+    return d.toLocaleDateString('zh-CN')
+  }
+
   if (type === 'full') {
     const pad = (n: number) => n.toString().padStart(2, '0')
     return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`
-  }
-
-  if (type === 'date') {
-    return d.toLocaleDateString('zh-CN')
   }
 
   return ''

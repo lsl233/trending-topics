@@ -1,7 +1,7 @@
 {
   "name": "trending-topics",
   "scripts": {
-    "dev": "bun run --hot src/index.ts",
+    "dev": "bun run --hot src/index.ts & bun run watch:css",
     "build:css": "bunx @tailwindcss/cli -i src/assets/css/*.css -o src/static/css/*.css",
     "build:js": "bun build src/assets/js/main.ts --outdir src/static/js --target browser",
     "build": "bun run build:css && bun run build:js",
