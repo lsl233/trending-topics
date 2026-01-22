@@ -17,11 +17,11 @@ export const formatTime = (
     if (minutes < 60) return `${minutes}分钟前`
     if (hours < 24) return `${hours}小时前`
     if (days < 7) return `${days}天前`
-    return d.toLocaleDateString('zh-CN')
+    return d.toLocaleDateString('en-CA')
   }
 
   if (type === 'date') {
-    return d.toLocaleDateString('zh-CN')
+    return d.toLocaleDateString('en-CA')
   }
 
   if (type === 'full') {
