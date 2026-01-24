@@ -27,7 +27,11 @@ export const rankingService = {
     const latestBatch = await crawlBatchRepository.getLatestBatch()
 
     if (latestBatch) {
-      const weiboHistories = await trendingHistoryRepository.getHistoriesWithTopicByBatchId(latestBatch.batchId)
+      // Fetch Weibo data from database
+      const weiboHistories = await trendingHistoryRepository.getHistoriesWithTopicByBatchIdAndSource(
+        latestBatch.batchId,
+        'weibo'
+      )
 
       const weiboItems: TrendingItem[] = weiboHistories
         .filter((h) => h.rank !== null)
@@ -43,9 +47,30 @@ export const rankingService = {
         config: PLATFORM_CONFIGS.weibo,
         items: weiboItems
       })
+
+      // Fetch Hupu data from database
+      const hupuHistories = await trendingHistoryRepository.getHistoriesWithTopicByBatchIdAndSource(
+        latestBatch.batchId,
+        'hupu'
+      )
+
+      const hupuItems: TrendingItem[] = hupuHistories
+        .filter((h) => h.rank !== null)
+        .map((h) => ({
+          rank: h.rank as number,
+          title: h.topicTitle,
+          hotScore: h.hotScore.toString(),
+          url: h.topicUrl
+        }))
+
+      result.push({
+        platform: 'hupu',
+        config: PLATFORM_CONFIGS.hupu,
+        items: hupuItems
+      })
     }
 
-    const mockPlatforms: Exclude<PlatformKey, 'weibo'>[] = ['hupu', 'zhihu', 'douyin', 'bilibili']
+    const mockPlatforms: Exclude<PlatformKey, 'weibo' | 'hupu'>[] = ['zhihu', 'douyin', 'bilibili']
 
     for (const platform of mockPlatforms) {
       const mockItems = generateMockTrendingData(platform, 10)

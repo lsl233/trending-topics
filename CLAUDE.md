@@ -19,6 +19,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ### Installing
 - `bun install` - Install dependencies
 
+### Testing
+- `bun run test` - Run tests with hot reload
+- `bun run test:run` - Run tests once
+- `bun run test:ui` - Run tests with UI
+- `bun run test:coverage` - Run tests with coverage report
+
 ## Architecture
 
 This is a **server-side rendered (SSR)** web application for displaying trending topics, built with Bun and Hono.
@@ -113,6 +119,6 @@ Database connection is managed as a singleton in `src/lib/db.ts`. The connection
 - CSS is compiled from `src/assets/css/` to `src/static/css/` using Tailwind CLI
 - JS is bundled from `src/assets/js/` to `src/static/js/` using Bun's built-in bundler
 
-### No Testing Framework
+### Testing
 
-This project currently has no test framework configured. Database health can be checked via `GET /api/db/test`.
+This project uses [vitest](https://vitest.dev/) for testing. Database health can be checked via `GET /api/db/test`.
